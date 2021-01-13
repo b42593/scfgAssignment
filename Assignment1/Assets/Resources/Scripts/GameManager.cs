@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         obstacleParent.transform.position = new Vector3(0f, 0f);
 
         enemyParent = new GameObject("Enemies");
-        enemyParent.transform.position = new Vector3(0.5f, 0.5f);
+        enemyParent.transform.position = new Vector3(0f, 0f);
     }
 
     // Update is called once per frame
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject enemy in enemies) 
         {
-            enemy.GetComponent<Pathfinding.AIDestinationSetter>().enabled = true;
+            enemy.GetComponent<customAIMoveScript>().enabled = true;
         }
     }
 }
