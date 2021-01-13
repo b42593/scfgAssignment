@@ -62,17 +62,6 @@ public class kuTwoScript : MonoBehaviour
     }
 
 
-    public void StartAI()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach (GameObject enemy in enemies)
-        {
-            enemy.GetComponent<customAIMoveScript>().enabled = true;
-        }
-    }
-
-
     IEnumerator TaskRun() 
     {
         for (int counter = 0; counter < 5; counter++) 
@@ -84,4 +73,6 @@ public class kuTwoScript : MonoBehaviour
 
         yield return null;
     }
+
+    //Added random generated obstacles(PRESENT IN KU2 SCENE)
 }

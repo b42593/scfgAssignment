@@ -65,7 +65,6 @@ public class customAIMoveScript : MonoBehaviour
 
             for (int counter = 0; counter < posns.Count; counter++)
             {
-                // Debug.Log("Distance: " + Vector3.Distance(t.position, posns[counter]));
                 if (posns[counter] != null) { 
                     while (Vector3.Distance(t.position, posns[counter]) >= 0.5f)
                     {
@@ -76,8 +75,7 @@ public class customAIMoveScript : MonoBehaviour
                         yield return seeker.IsDone();
                         //if the path is different, update the path that I need to follow
                         posns = pathToFollow.vectorPath;
-
-                        //  Debug.Log("@:" + t.position + " " + target.position + " " + posns[counter]);
+                        
                         GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -94,6 +92,9 @@ public class customAIMoveScript : MonoBehaviour
             yield return null;
         }
     }
+
+    /*In the custom move AI script, it is first finding the target and the seeker component. With a coroutine, using the seeker component that has been found, a path is generated from the enemy to the target and is stored in a list of positions.
+    The enemy is then moved along this path with a delay of 0.5f and on each move the grid is scanned to update the hitbox of the player.*/
 
 
 }

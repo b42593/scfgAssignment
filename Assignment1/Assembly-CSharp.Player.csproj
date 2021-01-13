@@ -58,6 +58,7 @@
     <Compile Include="Assets\Resources\Scripts\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\customAIMoveScript.cs" />
     <Compile Include="Assets\Resources\Scripts\kuTwoScript.cs" />
+    <Compile Include="Assets\Resources\Scripts\kuOneScript.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
