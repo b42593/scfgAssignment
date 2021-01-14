@@ -86,8 +86,6 @@ public class kuOneScript : MonoBehaviour
     //Added random generated enemyAI and made them head towards the same target. They avoid hitting each other especially when nearing the target.(PRESENT IN KU1 SCENE)
 
 
-    /*A* Path finding implements this feature by using the Pathfinder to generate the grid by scanning the playspace dictated by the width and depth nodes and making the set obstacle layer unwalkable.
-    Afterwards using the Seeker, AI Lerp and Destination Setter, we can assign a target for the enemy to follow which will generate a path on runtime to that target. 
-    The enemy will follow that path while going around any obstacle it comes across.*/
+    /* A* Pathfinding pro implements this by using a feature called local avoidance and it works by performing a gradient decent to find an optimal velocity so that the AI can avoid each other.*/
 
 }
