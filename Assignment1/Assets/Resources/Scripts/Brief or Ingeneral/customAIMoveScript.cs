@@ -16,12 +16,6 @@ public class customAIMoveScript : MonoBehaviour
     //a reference from the UI to the green box
     GameObject target;
 
-    //a reference to PointGraphObject
-    GameObject graphParent;
-
-    //the node of the graph that is going to correspond with the green box
-    GameObject targetNode;
-
     public List<Transform> obstacleNodes;
 
 
@@ -35,10 +29,6 @@ public class customAIMoveScript : MonoBehaviour
 
         //the instance of the seeker attached to this game object
         seeker = GetComponent<Seeker>();
-
-
-        //node target by name
-        targetNode = GameObject.Find("TargetNode");
 
 
         //generate the initial path
