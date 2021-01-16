@@ -86,7 +86,7 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         Vector3 position = RandomizeLocation();
         availableObstacles.Add(position);
 
-        GameObject.FindGameObjectsWithTag("Waypoint");
+       
         GameObject waypoint = Instantiate(waypointPrefab, position, Quaternion.identity);
         waypoints.Add(waypoint.transform);
         waypoint.transform.SetParent(waypointParent.transform);

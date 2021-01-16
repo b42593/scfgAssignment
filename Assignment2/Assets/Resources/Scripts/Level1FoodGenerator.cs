@@ -5,43 +5,35 @@ using UnityEngine;
 
 public class Level1FoodGenerator : MonoBehaviour
 {
-    [Header("Waypoints")]
-    [SerializeField] GameObject waypointPrefab;
-    public List<Transform> waypoints;
-
 
     [Header("Obstacles")]
-    [SerializeField] GameObject obstaclePrefab;
-    public List<Vector3> availableObstacles;
+    public List<Transform> obstacles;
+
+    //private GameObject waypointParent;
+    private GameObject foodParent;
+    private GameObject foodPrefab;
 
 
-    //the object that we are using to generate the path
-    Seeker seeker;
-
-    //path to follow stores the path
-    Path pathToFollow;
-
-    public Transform objectToMove;
-
-
-    private GameObject waypointParent;
-    private GameObject obstacleParent;
+    private bool occupiedByObstacle = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        seeker = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Seeker>();
 
-        waypointParent = new GameObject("Waypoints");
-        waypointParent.transform.position = new Vector3(0f, 0f);
+        /*waypointParent = new GameObject("Waypoints");
+        waypointParent.transform.position = new Vector3(0f, 0f);*/
+        foodPrefab = Resources.Load<GameObject>("Prefabs/Food");
+
+        foodParent = new GameObject("Food");
+        foodParent.transform.position = new Vector3(0f, 0f);
+
+        obstacleLocator();
 
 
-        obstacleParent = new GameObject("Obstacles");
-        obstacleParent.transform.position = new Vector3(0f, 0f);
+        //StartCoroutine(TaskRun());
+        StartCoroutine(foodGeneration());
 
-        StartCoroutine(TaskRun());
 
-       
 
     }
 
@@ -50,105 +42,63 @@ public class Level1FoodGenerator : MonoBehaviour
     {
     }
 
-    //Method to Randomize Spawn Locations
-    private Vector3 RandomizeLocation()
+    GameObject createFood(float xpos, float ypos)
     {
-        Vector3 position;
-        int x;
-        int y;
-
-        do
-        {
-            x = Random.Range(-49, 49);
-            y = Random.Range(-49, 49);
-
-            position = new Vector3(x, y);
-        } while (availableObstacles.Contains(new Vector3(x, y)));
-
-        return position;
-    }
-
-    /*
-    //Method to spawn Obstacles
-    private void AddObstacles()
-    {
-        Vector3 position = RandomizeLocation();
-
-        availableObstacles.Add(position);
-        GameObject obstacle = Instantiate(obstaclePrefab, position, Quaternion.identity);
-
-        obstacle.transform.SetParent(obstacleParent.transform);
-
-    }*/
-
-    //Method to spawn waypoints
-    /*private void AddWaypoints()
-    {
-        Vector3 position = RandomizeLocation();
-        availableObstacles.Add(position);
-
-        GameObject.FindGameObjectsWithTag("Waypoint");
-        GameObject waypoint = Instantiate(waypointPrefab, position, Quaternion.identity);
-        waypoints.Add(waypoint.transform);
-        waypoint.transform.SetParent(waypointParent.transform);
-    }*/
-
-    //Method to scan using A* Pathfinding scanner
-    private void Scan()
-    {
-        GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
-        Debug.Log("Scan Complete");
+        return Instantiate(foodPrefab, new Vector3(xpos, ypos), Quaternion.identity);
     }
 
 
-   /* private void StartAI() 
+    void obstacleLocator() 
     {
-        GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
-        foreach (GameObject obstacle in obstacles)
-        {
-            obstacle.GetComponent<customObstacleMoveScript>().enabled = true;
-        }
-    }*/
+        GameObject[] obstacle = GameObject.FindGameObjectsWithTag("Obstacle");
+        //GameObject waypoint = Instantiate(waypointPrefab, position, Quaternion.identity);
 
-    //Coroutine to run all the tasks (spawn waypoints, spawn obstacles, scan, enable obstacle movement and start AI move coroutine)
-    IEnumerator TaskRun()
+        foreach (GameObject obstaclePostion in obstacle)
+        {
+            
+            obstacles.Add(obstaclePostion.transform);
+        }
+
+        
+        
+    }
+
+
+    IEnumerator foodGeneration()
     {
-        for (int counter = 0; counter < 10; counter++)
+        bool alternatey = false;
+        for (float ycoord = -9.5f; ycoord <= 9.5f; ycoord++)
         {
-            //AddWaypoints();
-            yield return new WaitForSeconds(0.5f);
-        }
-        for (int counter = 0; counter < 5; counter++)
-        {
-            //AddObstacles();
-            yield return new WaitForSeconds(0.5f);
-        }
-        Scan();
-        //StartAI();
+            //for each row
+            for (float xcoord = -9.5f; xcoord <= 9.5f; xcoord++)
+            {
+               
+                
+                if (alternatey)
+                {
+                    if ((Mathf.Floor(xcoord) % 4 == 0))
+                    {
+                        GameObject food = createFood(xcoord, ycoord);
+                        food.transform.SetParent(foodParent.transform);
+                        food.GetComponent<SpriteRenderer>().color = Color.green;
+                    }
 
-        StartCoroutine(moveAI());
+                }
+                else
+                {
+                    if ((Mathf.Floor(xcoord) % 4 == 0))
+                    {
+                        GameObject food = createFood(xcoord, ycoord);
+                        food.transform.SetParent(foodParent.transform);
+                        food.GetComponent<SpriteRenderer>().color = Color.green;
+                    }
+                }
 
+                yield return new WaitForSeconds(0.1f);
+            }
+            alternatey = !alternatey;
+            yield return new WaitForSeconds(0.1f);
+        }
         yield return null;
     }
-
-    //Coroutine to move the AI to the waypoints
-    IEnumerator moveAI() 
-    {
-         foreach (Transform waypointTransform in waypoints)
-         {
-             while (Vector3.Distance(objectToMove.position, waypointTransform.position) > 0.1f)
-             {
-                objectToMove.position = Vector3.MoveTowards(objectToMove.position, waypointTransform.position, 1f);
-                pathToFollow = seeker.StartPath(objectToMove.position, waypointTransform.position);
-                Scan();
-                yield return new WaitForSeconds(0.5f);
-                
-            }
-
-             yield return null;
-         }
-    }
 }
-
-/*In this script, I am first spawning the waypoints and assigning them to a list. Then the obstacles are spawned and they have their own script that handles movement which is turned on after a scan is completed.
-  Afterwards the moveAi coroutine is started and here the AI will move from waypoint to another while dodging the obstacles.*/
