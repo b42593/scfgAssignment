@@ -5,16 +5,13 @@ using UnityEngine;
 
 public class Level1FoodGenerator : MonoBehaviour
 {
-
-    [Header("Obstacles")]
-    public List<Transform> obstacles;
-
     //private GameObject waypointParent;
     private GameObject foodParent;
     private GameObject foodPrefab;
+    private GameObject food;
+    
 
-
-    private bool occupiedByObstacle = false;
+    public bool foodGenFinished = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +23,6 @@ public class Level1FoodGenerator : MonoBehaviour
 
         foodParent = new GameObject("Food");
         foodParent.transform.position = new Vector3(0f, 0f);
-
-        obstacleLocator();
 
 
         //StartCoroutine(TaskRun());
@@ -47,23 +42,6 @@ public class Level1FoodGenerator : MonoBehaviour
         return Instantiate(foodPrefab, new Vector3(xpos, ypos), Quaternion.identity);
     }
 
-
-    void obstacleLocator() 
-    {
-        GameObject[] obstacle = GameObject.FindGameObjectsWithTag("Obstacle");
-        //GameObject waypoint = Instantiate(waypointPrefab, position, Quaternion.identity);
-
-        foreach (GameObject obstaclePostion in obstacle)
-        {
-            
-            obstacles.Add(obstaclePostion.transform);
-        }
-
-        
-        
-    }
-
-
     IEnumerator foodGeneration()
     {
         bool alternatey = false;
@@ -71,16 +49,17 @@ public class Level1FoodGenerator : MonoBehaviour
         {
             //for each row
             for (float xcoord = -9.5f; xcoord <= 9.5f; xcoord++)
-            {
-               
+            {           
+                   
                 
                 if (alternatey)
                 {
                     if ((Mathf.Floor(xcoord) % 4 == 0))
                     {
-                        GameObject food = createFood(xcoord, ycoord);
+                        food = createFood(xcoord, ycoord);
                         food.transform.SetParent(foodParent.transform);
                         food.GetComponent<SpriteRenderer>().color = Color.green;
+                        food.GetComponent<SpriteRenderer>().sortingOrder = -1;
                     }
 
                 }
@@ -91,14 +70,17 @@ public class Level1FoodGenerator : MonoBehaviour
                         GameObject food = createFood(xcoord, ycoord);
                         food.transform.SetParent(foodParent.transform);
                         food.GetComponent<SpriteRenderer>().color = Color.green;
+                        food.GetComponent<SpriteRenderer>().sortingOrder = -1;
                     }
                 }
 
+                
                 yield return new WaitForSeconds(0.1f);
             }
             alternatey = !alternatey;
             yield return new WaitForSeconds(0.1f);
         }
+        foodGenFinished = true;
         yield return null;
     }
 }

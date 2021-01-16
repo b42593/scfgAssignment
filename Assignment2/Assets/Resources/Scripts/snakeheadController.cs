@@ -33,4 +33,14 @@ public class snakeheadController : MonoBehaviour
 
         
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Food")) 
+        {
+            mysnakegenerator.snakeLength++;
+            Destroy(collision.gameObject);
+        }
+    }
+
 }
