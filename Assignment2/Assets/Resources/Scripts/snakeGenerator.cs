@@ -32,7 +32,7 @@ public class snakeGenerator : MonoBehaviour
     public int snakeLength;
 
 
-    GameObject playerBox, breadcrumbBox, pathParent, timerUI;
+    GameObject playerBox, breadcrumbBox, pathParent, timerUI, snake;
 
     List<positionRecord> pastPositions;
 
@@ -43,6 +43,11 @@ public class snakeGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        snake = new GameObject("Snake");
+        snake.transform.position = new Vector3(0f, 0f);
+
+
         playerBox = Instantiate(Resources.Load<GameObject>("Prefabs/SnakeHead"), new Vector3(0f, 0f), Quaternion.identity);
 
         pathParent = new GameObject();
@@ -59,7 +64,9 @@ public class snakeGenerator : MonoBehaviour
         //move the box with the arrow keys
         playerBox.AddComponent<snakeheadController>();
 
-        playerBox.name = "Black player box";
+        playerBox.name = "Player";
+
+        playerBox.transform.SetParent(snake.transform);
 
         pastPositions = new List<positionRecord>();
 
@@ -156,6 +163,8 @@ public class snakeGenerator : MonoBehaviour
 
                 pastPositions[snakeblocks].BreadcrumbBox = Instantiate(breadcrumbBox, pastPositions[snakeblocks].Position, Quaternion.identity);
                 pastPositions[snakeblocks].BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.red;
+                pastPositions[snakeblocks].BreadcrumbBox.transform.SetParent(snake.transform);
+
 
             }
 

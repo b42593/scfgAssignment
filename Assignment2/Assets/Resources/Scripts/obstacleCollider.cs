@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class obstacleCollider : MonoBehaviour
 {
-    public bool isHittingObstacle = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +16,12 @@ public class obstacleCollider : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("PlayerHit");
+            Destroy(other.gameObject);
         }
     }
 }

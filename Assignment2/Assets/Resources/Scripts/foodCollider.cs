@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class foodCollider : MonoBehaviour
 {
-
+    snakeGenerator mysnakegenerator;
     public bool isHittingObstacle = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        mysnakegenerator = Camera.main.GetComponent<snakeGenerator>();
     }
 
     // Update is called once per frame
@@ -26,6 +26,12 @@ public class foodCollider : MonoBehaviour
             isHittingObstacle = true;
             Destroy(this.gameObject);
             isHittingObstacle = false;
+        }
+
+        if (other.gameObject.CompareTag("Player"))
+        {
+            mysnakegenerator.snakeLength += 1;
+            Destroy(this.gameObject);
         }
     }
 
