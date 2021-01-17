@@ -7,6 +7,11 @@ using Pathfinding;
 
 public class customAIMoveScript : MonoBehaviour
 {
+
+    public int targetCounter = 0;
+    public int currentTarget = 0;
+
+
     //the object that we are using to generate the path
     Seeker seeker;
 
@@ -16,14 +21,15 @@ public class customAIMoveScript : MonoBehaviour
     //a reference from the UI to the green box
     GameObject target;
 
-    public List<Transform> obstacleNodes;
+    public GameObject[] targets;
 
 
     // Start is called before the first frame update
     void Start()
     {
-
-        target = GameObject.FindGameObjectWithTag("Target");
+        
+        targets = GameObject.FindGameObjectsWithTag("Target");
+        target = targets[0];
 
         Debug.Log(this.name);
 
@@ -34,7 +40,7 @@ public class customAIMoveScript : MonoBehaviour
         //generate the initial path
         pathToFollow = seeker.StartPath(transform.position, target.transform.position);
 
-        
+
 
         //move the red robot towards the green enemy
         StartCoroutine(moveTowardsTarget(this.transform));
@@ -49,13 +55,23 @@ public class customAIMoveScript : MonoBehaviour
 
         while (true)
         {
+            if (Vector3.Distance(transform.position, target.transform.position) <= 1f)
+            {
+                targetCounter++;
+                currentTarget++;
+                target = targets[targetCounter];
+                
+                
+            }
+
 
             List<Vector3> posns = pathToFollow.vectorPath;
             Debug.Log("Positions Count: " + posns.Count);
 
             for (int counter = 0; counter < posns.Count; counter++)
             {
-                if (posns[counter] != null) { 
+                if (posns[counter] != null)
+                {
                     while (Vector3.Distance(t.position, posns[counter]) >= 0.5f)
                     {
                         t.position = Vector3.MoveTowards(t.position, posns[counter], 1f);
@@ -69,19 +85,41 @@ public class customAIMoveScript : MonoBehaviour
                         GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
                         yield return new WaitForSeconds(0.5f);
                     }
-
+                    
                 }
-                //keep looking for a path because if we have arrived the enemy will anyway move away
-                //This code allows us to keep chasing
-                pathToFollow = seeker.StartPath(t.position, target.transform.position);
-                yield return seeker.IsDone();
-                posns = pathToFollow.vectorPath;
-                //yield return null;
+
+                if (targetCounter == targets.Length)
+                {
+                    targetCounter = 0;
+                    currentTarget = 0;
+                }
+                else 
+                {
+                    //keep looking for a path because if we have arrived the enemy will anyway move away
+                    //This code allows us to keep chasing
+                    pathToFollow = seeker.StartPath(t.position, target.transform.position);
+                    yield return seeker.IsDone();
+                    posns = pathToFollow.vectorPath;
+                    //yield return null;
+                }
+
+
+
+
+
+
+
+
 
             }
             yield return null;
         }
     }
+
+
+
+
+
 
     /*In the custom move AI script, it is first finding the target and the seeker component. With a coroutine, using the seeker component that has been found, a path is generated from the enemy to the target and is stored in a list of positions.
     The enemy is then moved along this path with a delay of 0.5f and on each move the grid is scanned to update the hitbox of the enemy.*/

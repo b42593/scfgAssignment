@@ -67,14 +67,15 @@ public class snakeGenerator : MonoBehaviour
         playerBox.GetComponent<SpriteRenderer>().color = Color.black;
 
         //move the box with the arrow keys
-        playerBox.AddComponent<snakeheadController>();
+        //playerBox.AddComponent<snakeheadController>();
+        playerBox.AddComponent<customAIMoveScript>();
         playerBox.name = "Player";
 
         playerBox.transform.SetParent(snake.transform);
 
         pastPositions = new List<positionRecord>();
 
-        drawTail(snakeLength);
+       // drawTail(snakeLength);
     }
 
 
@@ -96,7 +97,7 @@ public class snakeGenerator : MonoBehaviour
 
     // Update is called once per frame
 
-    bool boxExists(Vector3 positionToCheck)
+   /* bool boxExists(Vector3 positionToCheck)
     {
         //foreach position in the list
 
@@ -202,5 +203,5 @@ public class snakeGenerator : MonoBehaviour
             Destroy(p.BreadcrumbBox);
         }
     }
-
+   */
 }

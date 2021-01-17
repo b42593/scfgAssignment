@@ -25,13 +25,20 @@ public class snakeheadController : MonoBehaviour
     {
 
         waypoints = new List<Transform>();
+        AddWaypoints();
+
         objectToMove = GameObject.FindGameObjectWithTag("Player").transform;
 
         seeker = GameObject.FindGameObjectWithTag("Player").GetComponent<Seeker>();
 
+
+        pathToFollow = seeker.StartPath(transform.position, waypoints[0].transform.position);
+
+
+
         mysnakegenerator = Camera.main.GetComponent<snakeGenerator>();
         myfoodgenerator = Camera.main.GetComponent<Level1FoodGenerator>();
-        AddWaypoints();
+        
         TaskRun();
 
 
@@ -40,7 +47,7 @@ public class snakeheadController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
 
         /*
          if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -96,10 +103,10 @@ public class snakeheadController : MonoBehaviour
                     objectToMove.position = Vector3.MoveTowards(objectToMove.position, waypointTransform.position, 1f);
                     pathToFollow = seeker.StartPath(objectToMove.position, waypointTransform.position);
                     Scan();
-                    mysnakegenerator.savePosition();
+                    //mysnakegenerator.savePosition();
 
                     //draw a tail of length
-                    mysnakegenerator.drawTail(mysnakegenerator.snakeLength);
+                    //mysnakegenerator.drawTail(mysnakegenerator.snakeLength);
                 }
                 yield return new WaitForSeconds(0.5f);
 
