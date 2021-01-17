@@ -9,7 +9,7 @@ public class Level1FoodGenerator : MonoBehaviour
     private GameObject foodParent;
     private GameObject foodPrefab;
     private GameObject food;
-    
+    private snakeheadController snakeController;
 
     public bool foodGenFinished = false;
 
@@ -24,6 +24,7 @@ public class Level1FoodGenerator : MonoBehaviour
         foodParent = new GameObject("Food");
         foodParent.transform.position = new Vector3(0f, 0f);
 
+        snakeController = GameObject.FindGameObjectWithTag("Player").GetComponent<snakeheadController>();
 
         //StartCoroutine(TaskRun());
         StartCoroutine(foodGeneration());
@@ -35,6 +36,10 @@ public class Level1FoodGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (foodGenFinished)
+        {
+            StopCoroutine(foodGeneration());
+        }
     }
 
     GameObject createFood(float xpos, float ypos)
@@ -45,7 +50,7 @@ public class Level1FoodGenerator : MonoBehaviour
     IEnumerator foodGeneration()
     {
         bool alternatey = false;
-        for (float ycoord = -9.5f; ycoord <= 9.5f; ycoord++)
+        for (float ycoord = -9.5f; ycoord <= 9.5f; ycoord += 4)
         {
             //for each row
             for (float xcoord = -9.5f; xcoord <= 9.5f; xcoord++)
@@ -61,6 +66,7 @@ public class Level1FoodGenerator : MonoBehaviour
                         food.GetComponent<SpriteRenderer>().color = Color.green;
                         food.GetComponent<SpriteRenderer>().sortingOrder = -1;
                     }
+                    
 
                 }
                 else
@@ -77,10 +83,12 @@ public class Level1FoodGenerator : MonoBehaviour
                 
                 yield return new WaitForSeconds(0.1f);
             }
+
             alternatey = !alternatey;
             yield return new WaitForSeconds(0.1f);
         }
         foodGenFinished = true;
+        //snakeController.AddWaypoints();
         yield return null;
     }
 }

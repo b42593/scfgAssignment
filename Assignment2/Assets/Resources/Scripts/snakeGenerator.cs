@@ -19,6 +19,7 @@ class positionRecord
     }
 
 
+    
 
     public Vector3 Position { get => position; set => position = value; }
     public int PositionOrder { get => positionOrder; set => positionOrder = value; }
@@ -28,9 +29,13 @@ class positionRecord
 
 public class snakeGenerator : MonoBehaviour
 {
+    snakeheadController snakeheadMover;
 
     public int snakeLength;
 
+    [Header ("Snake Spawn Position")]
+    [SerializeField] float spawnX;
+    [SerializeField] float spawnY;
 
     GameObject playerBox, breadcrumbBox, pathParent, timerUI, snake;
 
@@ -43,12 +48,12 @@ public class snakeGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
         snake = new GameObject("Snake");
         snake.transform.position = new Vector3(0f, 0f);
 
 
-        playerBox = Instantiate(Resources.Load<GameObject>("Prefabs/SnakeHead"), new Vector3(0f, 0f), Quaternion.identity);
+        playerBox = Instantiate(Resources.Load<GameObject>("Prefabs/SnakeHead"), new Vector3(spawnX, spawnY), Quaternion.identity);
 
         pathParent = new GameObject();
 
@@ -63,7 +68,6 @@ public class snakeGenerator : MonoBehaviour
 
         //move the box with the arrow keys
         playerBox.AddComponent<snakeheadController>();
-
         playerBox.name = "Player";
 
         playerBox.transform.SetParent(snake.transform);
@@ -76,17 +80,17 @@ public class snakeGenerator : MonoBehaviour
 
     void Update()
     {
-        if (Input.anyKeyDown && !((Input.GetMouseButtonDown(0)
-            || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))) && !Input.GetKeyDown(KeyCode.X) && !Input.GetKeyDown(KeyCode.Z) && !Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("a key was pressed " + Time.time);
+        /* if (Input.anyKeyDown && !((Input.GetMouseButtonDown(0)
+             || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))) && !Input.GetKeyDown(KeyCode.X) && !Input.GetKeyDown(KeyCode.Z) && !Input.GetKeyDown(KeyCode.Space))
+         {
+             Debug.Log("a key was pressed " + Time.time);
 
-            savePosition();
+             savePosition();
 
-            //draw a tail of length
-            drawTail(snakeLength);
-        }
-
+             //draw a tail of length
+             drawTail(snakeLength);
+         }
+        */
     }
 
 
@@ -115,7 +119,7 @@ public class snakeGenerator : MonoBehaviour
     }
 
 
-    void savePosition()
+    public void savePosition()
     {
         positionRecord currentBoxPos = new positionRecord();
 
@@ -142,7 +146,7 @@ public class snakeGenerator : MonoBehaviour
     }
 
 
-    void drawTail(int length)
+    public void drawTail(int length)
     {
         clearTail();
 
@@ -177,13 +181,11 @@ public class snakeGenerator : MonoBehaviour
             for (int count = length; count > 0; count--)
             {
                 positionRecord fakeBoxPos = new positionRecord();
-                float ycoord = count * -1;
-                fakeBoxPos.Position = new Vector3(0f, ycoord);
+                float ycoord = count * - 1;
+                //ycoord = spawnY - ycoord;
+                fakeBoxPos.Position = new Vector3(spawnX, ycoord);
                 
                 pastPositions.Add(fakeBoxPos);
-
-
-
 
             }
             firstrun = false;

@@ -139,7 +139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 473cc8ac5cc3b244fbfd4b40295dc017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHittingObstacle: 0
 --- !u!54 &-5850326458270255382
 Rigidbody:
   m_ObjectHideFlags: 0
