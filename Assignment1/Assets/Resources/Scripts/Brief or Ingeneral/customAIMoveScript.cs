@@ -9,7 +9,7 @@ public class customAIMoveScript : MonoBehaviour
 {
 
     public int targetCounter = 0;
-    public int currentTarget = 0;
+    public int currentTarget;
 
 
     //the object that we are using to generate the path
@@ -27,7 +27,7 @@ public class customAIMoveScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentTarget = 1;
         targets = GameObject.FindGameObjectsWithTag("Target");
         target = targets[0];
 
@@ -55,13 +55,11 @@ public class customAIMoveScript : MonoBehaviour
 
         while (true)
         {
-            if (Vector3.Distance(transform.position, target.transform.position) <= 1f)
+            if (Vector3.Distance(transform.position, target.transform.position) <= 0.5f  && currentTarget != targets.Length)
             {
                 targetCounter++;
                 currentTarget++;
                 target = targets[targetCounter];
-                
-                
             }
 
 
@@ -88,31 +86,29 @@ public class customAIMoveScript : MonoBehaviour
                     
                 }
 
-                if (targetCounter == targets.Length)
-                {
-                    targetCounter = 0;
-                    currentTarget = 0;
-                }
-                else 
+                if (currentTarget != targets.Length)
                 {
                     //keep looking for a path because if we have arrived the enemy will anyway move away
                     //This code allows us to keep chasing
                     pathToFollow = seeker.StartPath(t.position, target.transform.position);
                     yield return seeker.IsDone();
                     posns = pathToFollow.vectorPath;
-                    //yield return null;
+                    yield return null;
                 }
 
-
-
-
-
-
-
-
-
+                else if(currentTarget == targets.Length)
+                {
+                    targetCounter++;
+                    //keep looking for a path because if we have arrived the enemy will anyway move away
+                    //This code allows us to keep chasing
+                    pathToFollow = seeker.StartPath(t.position, target.transform.position);
+                    yield return seeker.IsDone();
+                    posns = pathToFollow.vectorPath;
+                    yield return null;
+                }
+                yield return null;
             }
-            yield return null;
+                yield return null;
         }
     }
 

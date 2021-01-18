@@ -55,12 +55,12 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Resources\Scripts\Task4\KU4PatrolBehaviourScript.cs" />
     <Compile Include="Assets\Resources\Scripts\Brief or Ingeneral\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Brief or Ingeneral\customAIMoveScript.cs" />
     <Compile Include="Assets\Resources\Scripts\Task1\kuTwoScript.cs" />
-    <Compile Include="Assets\Resources\Scripts\Task2\kuOneScript.cs" />
     <Compile Include="Assets\Resources\Scripts\Task4\customObstacleMoveScript.cs" />
-    <Compile Include="Assets\Resources\Scripts\Task4\KU4PatrolBehaviourScript.cs" />
+    <Compile Include="Assets\Resources\Scripts\Task2\kuOneScript.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

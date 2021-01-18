@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6477029496606537257}
   - component: {fileID: -5655686536145312500}
   - component: {fileID: -1185513290097675424}
-  - component: {fileID: 6337584774760146727}
+  - component: {fileID: 6194681340387035086}
   m_Layer: 8
   m_Name: Obstacle
   m_TagString: Obstacle
@@ -126,7 +126,7 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &6337584774760146727
+--- !u!114 &6194681340387035086
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,4 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c06dcbff9202146859bd07eb222203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleNodes: []
+  waypointPrefab: {fileID: 5601254271490000356, guid: e04f0dc52633e334a8db0e5d84f353f8, type: 3}
+  waypoints: []
+  obstaclePrefab: {fileID: 6477029496606537271}
+  availableObstacles: []
+  objectToMove: {fileID: 6477029496606537258}

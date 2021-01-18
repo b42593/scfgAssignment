@@ -5,10 +5,8 @@ using UnityEngine;
 
 public class KU4PatrolBehaviourScript : MonoBehaviour
 {
-    [Header("Waypoints")]
-    [SerializeField] GameObject waypointPrefab;
-    public List<Transform> waypoints;
-
+    [Header("Targets")]
+    [SerializeField] GameObject targetPrefab;
 
     [Header("Obstacles")]
     [SerializeField] GameObject obstaclePrefab;
@@ -24,16 +22,14 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
     public Transform objectToMove;
 
 
-    private GameObject waypointParent;
+    private GameObject targetParent;
     private GameObject obstacleParent;
 
     // Start is called before the first frame update
     void Start()
     {
-        seeker = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Seeker>();
-
-        waypointParent = new GameObject("Waypoints");
-        waypointParent.transform.position = new Vector3(0f, 0f);
+        targetParent = new GameObject("Targets");
+        targetParent.transform.position = new Vector3(0f, 0f);
 
 
         obstacleParent = new GameObject("Obstacles");
@@ -68,6 +64,19 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         return position;
     }
 
+    private void AddTargets()
+    {
+        Vector3 position = RandomizeLocation();
+
+        availableObstacles.Add(position);
+        GameObject target = Instantiate(targetPrefab, position, Quaternion.identity);
+
+        target.transform.SetParent(targetParent.transform);
+
+    }
+
+
+
     //Method to spawn Obstacles
     private void AddObstacles()
     {
@@ -75,21 +84,8 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
 
         availableObstacles.Add(position);
         GameObject obstacle = Instantiate(obstaclePrefab, position, Quaternion.identity);
-
         obstacle.transform.SetParent(obstacleParent.transform);
 
-    }
-
-    //Method to spawn waypoints
-    private void AddWaypoints()
-    {
-        Vector3 position = RandomizeLocation();
-        availableObstacles.Add(position);
-
-       
-        GameObject waypoint = Instantiate(waypointPrefab, position, Quaternion.identity);
-        waypoints.Add(waypoint.transform);
-        waypoint.transform.SetParent(waypointParent.transform);
     }
 
     //Method to scan using A* Pathfinding scanner
@@ -107,6 +103,15 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         {
             obstacle.GetComponent<customObstacleMoveScript>().enabled = true;
         }
+
+        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+        enemy.GetComponent<customAIMoveScript>().enabled = true;
+    }
+
+    private void StartEnemy()
+    {
+        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+        enemy.GetComponent<customAIMoveScript>().enabled = true;
     }
 
     //Coroutine to run all the tasks (spawn waypoints, spawn obstacles, scan, enable obstacle movement and start AI move coroutine)
@@ -114,9 +119,10 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
     {
         for (int counter = 0; counter < 10; counter++)
         {
-            AddWaypoints();
+            AddTargets();
             yield return new WaitForSeconds(0.5f);
         }
+        
         for (int counter = 0; counter < 5; counter++)
         {
             AddObstacles();
@@ -124,28 +130,9 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         }
         Scan();
         StartAI();
-
-        StartCoroutine(moveAI());
+        StartEnemy();
 
         yield return null;
-    }
-
-    //Coroutine to move the AI to the waypoints
-    IEnumerator moveAI() 
-    {
-         foreach (Transform waypointTransform in waypoints)
-         {
-             while (Vector3.Distance(objectToMove.position, waypointTransform.position) > 0.1f)
-             {
-                objectToMove.position = Vector3.MoveTowards(objectToMove.position, waypointTransform.position, 1f);
-                pathToFollow = seeker.StartPath(objectToMove.position, waypointTransform.position);
-                Scan();
-                yield return new WaitForSeconds(0.5f);
-                
-            }
-
-             yield return null;
-         }
     }
 }
 

@@ -311,8 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a287470d0df99d49b9ebd7971d4513d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypointPrefab: {fileID: 5601254271490000356, guid: e04f0dc52633e334a8db0e5d84f353f8, type: 3}
-  waypoints: []
+  targetPrefab: {fileID: 5473887694522690397, guid: 9448a2aeaa9e7ac4dabb32efcdb7fa40, type: 3}
   obstaclePrefab: {fileID: 6477029496606537271, guid: 08f3f8d42604d3c45ae0f5a024102b48, type: 3}
   availableObstacles: []
   objectToMove: {fileID: 930066519}
@@ -370,6 +369,10 @@ PrefabInstance:
     - target: {fileID: 2644100479453144173, guid: 4552ac54e7f79d848943f55795181092, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8378884026985609119, guid: 4552ac54e7f79d848943f55795181092, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

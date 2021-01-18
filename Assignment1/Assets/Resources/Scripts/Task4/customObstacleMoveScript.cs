@@ -5,92 +5,118 @@ using UnityEngine;
 
 public class customObstacleMoveScript : MonoBehaviour
 {
+
+    [Header("Waypoints")]
+    [SerializeField] GameObject waypointPrefab;
+    public List<Transform> waypoints;
+
+    [Header("Obstacles")]
+    [SerializeField] GameObject obstaclePrefab;
+    public List<Vector3> availableObstacles;
+
+
     //the object that we are using to generate the path
     Seeker seeker;
 
     //path to follow stores the path
     Path pathToFollow;
 
-    //a reference from the UI to the green box
-    GameObject target;
+    public Transform objectToMove;
 
-    //a reference to PointGraphObject
-    GameObject graphParent;
-
-    //the node of the graph that is going to correspond with the green box
-    GameObject targetNode;
-
-    public List<Transform> obstacleNodes;
+    private GameObject obstacleParent;
+    private GameObject waypointParent;
 
 
     // Start is called before the first frame update
     void Start()
     {
 
-        target = GameObject.FindGameObjectWithTag("Enemy");
+        seeker = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Seeker>();
 
-        Debug.Log(this.name);
+        obstacleParent = new GameObject("Obstacles");
+        obstacleParent.transform.position = new Vector3(0f, 0f);
 
-        //the instance of the seeker attached to this game object
-        seeker = GetComponent<Seeker>();
+        waypointParent = new GameObject("Waypoints");
+        waypointParent.transform.position = new Vector3(0f, 0f);
 
+        StartCoroutine(TaskRun());
 
-        //node target by name
-        targetNode = GameObject.Find("TargetNode");
+    }
 
-
-        //generate the initial path
-        pathToFollow = seeker.StartPath(transform.position, target.transform.position);
-
-
-
-        //move the red robot towards the green enemy
-        StartCoroutine(moveTowardsEnemy(this.transform));
+    private void Update()
+    {
+        
     }
 
 
-
-
-    //Coroutine that moves the obstacle to the enemy
-    IEnumerator moveTowardsEnemy(Transform t)
+    //Method to scan using A* Pathfinding scanner
+    private void Scan()
     {
+        GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
+        Debug.Log("Scan Complete");
+    }
 
-        while (true)
+
+    private Vector3 RandomizeLocation()
+    {
+        Vector3 position;
+        int x;
+        int y;
+
+        do
         {
+            x = Random.Range(-49, 49);
+            y = Random.Range(-49, 49);
 
-            List<Vector3> posns = pathToFollow.vectorPath;
-            Debug.Log("Positions Count: " + posns.Count);
+            position = new Vector3(x, y);
+        } while (availableObstacles.Contains(new Vector3(x, y)));
 
-            for (int counter = 0; counter < posns.Count; counter++)
+        return position;
+    }
+
+    //Method to spawn waypoints
+    private void AddWaypoints()
+    {
+        Vector3 position = RandomizeLocation();
+        availableObstacles.Add(position);
+
+
+        GameObject waypoint = Instantiate(waypointPrefab, position, Quaternion.identity);
+        waypoints.Add(waypoint.transform);
+        waypoint.transform.SetParent(waypointParent.transform);
+        
+    }
+
+
+    IEnumerator TaskRun()
+    {
+        for (int counter = 0; counter < 2; counter++)
+        {
+            AddWaypoints();
+            yield return new WaitForSeconds(0.5f);
+        }
+        StartCoroutine(moveAI());
+    }
+
+
+    //Coroutine to move the AI to the waypoints
+    IEnumerator moveAI()
+    {
+        foreach (Transform waypointTransform in waypoints)
+        {
+            while (Vector3.Distance(objectToMove.position, waypointTransform.position) > 0.1f)
             {
-                if (posns[counter] != null)
-                {
-                    while (Vector3.Distance(t.position, posns[counter]) >= 0.5f)
-                    {
-                        t.position = Vector3.MoveTowards(t.position, posns[counter], 1f);
-                        //since the enemy is moving, I need to make sure that I am following him
-                        pathToFollow = seeker.StartPath(t.position, target.transform.position);
-                        //wait until the path is generated
-                        yield return seeker.IsDone();
-                        //if the path is different, update the path that I need to follow
-                        posns = pathToFollow.vectorPath;
-
-                        GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
-                        yield return new WaitForSeconds(0.5f);
-                    }
-
-                }
-                //keep looking for a path because if we have arrived the enemy will anyway move away
-                //This code allows us to keep chasing
-                pathToFollow = seeker.StartPath(t.position, target.transform.position);
-                yield return seeker.IsDone();
-                posns = pathToFollow.vectorPath;
-                //yield return null;
+                objectToMove.position = Vector3.MoveTowards(objectToMove.position, waypointTransform.position, 1f);
+                pathToFollow = seeker.StartPath(objectToMove.position, waypointTransform.position);
+                Scan();
+                yield return new WaitForSeconds(0.5f);
 
             }
+
             yield return null;
         }
     }
+
 }
 
 
