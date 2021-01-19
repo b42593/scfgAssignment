@@ -89,7 +89,7 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
     }
 
     //Method to scan using A* Pathfinding scanner
-    private void Scan()
+    public void Scan()
     {
         GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
         Debug.Log("Scan Complete");

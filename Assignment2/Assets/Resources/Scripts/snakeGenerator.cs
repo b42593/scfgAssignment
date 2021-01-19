@@ -29,7 +29,7 @@ class positionRecord
 
 public class snakeGenerator : MonoBehaviour
 {
-    snakeheadController snakeheadMover;
+    snakeHeadController snakeheadMover;
 
     public int snakeLength;
 
@@ -64,11 +64,13 @@ public class snakeGenerator : MonoBehaviour
 
         breadcrumbBox = Resources.Load<GameObject>("Prefabs/SnakeBody");
 
-        playerBox.GetComponent<SpriteRenderer>().color = Color.black;
+        playerBox.GetComponent<SpriteRenderer>().color = Color.green;
 
-        //move the box with the arrow keys
-        //playerBox.AddComponent<snakeheadController>();
-        playerBox.AddComponent<customAIMoveScript>();
+        //move the snakehead automatically with pathing
+        playerBox.AddComponent<snakeHeadController>();
+        playerBox.GetComponent<snakeHeadController>().enabled = false;
+
+
         playerBox.name = "Player";
 
         playerBox.transform.SetParent(snake.transform);
@@ -81,23 +83,12 @@ public class snakeGenerator : MonoBehaviour
 
     void Update()
     {
-        /* if (Input.anyKeyDown && !((Input.GetMouseButtonDown(0)
-             || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))) && !Input.GetKeyDown(KeyCode.X) && !Input.GetKeyDown(KeyCode.Z) && !Input.GetKeyDown(KeyCode.Space))
-         {
-             Debug.Log("a key was pressed " + Time.time);
-
-             savePosition();
-
-             //draw a tail of length
-             drawTail(snakeLength);
-         }
-        */
     }
 
 
     // Update is called once per frame
 
-   /* bool boxExists(Vector3 positionToCheck)
+    bool boxExists(Vector3 positionToCheck)
     {
         //foreach position in the list
 
@@ -136,7 +127,7 @@ public class snakeGenerator : MonoBehaviour
 
             currentBoxPos.BreadcrumbBox.name = positionorder.ToString();
 
-            currentBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.red;
+            currentBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 0);
 
             currentBoxPos.BreadcrumbBox.GetComponent<SpriteRenderer>().sortingOrder = -1;
         }
@@ -167,7 +158,7 @@ public class snakeGenerator : MonoBehaviour
                 Debug.Log(snakeblocks);
 
                 pastPositions[snakeblocks].BreadcrumbBox = Instantiate(breadcrumbBox, pastPositions[snakeblocks].Position, Quaternion.identity);
-                pastPositions[snakeblocks].BreadcrumbBox.GetComponent<SpriteRenderer>().color = Color.red;
+                pastPositions[snakeblocks].BreadcrumbBox.GetComponent<SpriteRenderer>().color = new Color32(53, 144, 69 , 100);
                 pastPositions[snakeblocks].BreadcrumbBox.transform.SetParent(snake.transform);
 
 
@@ -177,21 +168,30 @@ public class snakeGenerator : MonoBehaviour
 
         if (firstrun)
         {
+            int curLength = 0;
 
-            
-            for (int count = length; count > 0; count--)
+            for (curLength = 0; curLength < length; curLength++)
             {
-                positionRecord fakeBoxPos = new positionRecord();
-                float ycoord = count * - 1;
-                //ycoord = spawnY - ycoord;
-                fakeBoxPos.Position = new Vector3(spawnX, ycoord);
-                
-                pastPositions.Add(fakeBoxPos);
+                for (int count = curLength; count < length; count++)
+                {
+                    positionRecord fakeBoxPos = new positionRecord();
+                    //float ycoord = count * -1;
+                    // ycoord = spawnY - ycoord;
+                    float ycoord = spawnY * -1;
 
+                    fakeBoxPos.Position = new Vector3(spawnX, ycoord);
+
+                    pastPositions.Add(fakeBoxPos);
+                }
+                drawTail(curLength);
             }
-            firstrun = false;
-            drawTail(length);
             
+
+
+            firstrun = false;
+            
+
+
         }
 
     }
@@ -203,5 +203,5 @@ public class snakeGenerator : MonoBehaviour
             Destroy(p.BreadcrumbBox);
         }
     }
-   */
+   
 }

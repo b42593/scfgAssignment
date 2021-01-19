@@ -15,23 +15,19 @@ public class customObstacleMoveScript : MonoBehaviour
     public List<Vector3> availableObstacles;
 
 
-    //the object that we are using to generate the path
-    Seeker seeker;
-
-    //path to follow stores the path
-    Path pathToFollow;
-
     public Transform objectToMove;
 
     private GameObject obstacleParent;
     private GameObject waypointParent;
+
+    public int waypointCounter = 0;
 
 
     // Start is called before the first frame update
     void Start()
     {
 
-        seeker = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Seeker>();
+        
 
         obstacleParent = new GameObject("Obstacles");
         obstacleParent.transform.position = new Vector3(0f, 0f);
@@ -48,15 +44,7 @@ public class customObstacleMoveScript : MonoBehaviour
         
     }
 
-
-    //Method to scan using A* Pathfinding scanner
-    private void Scan()
-    {
-        GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
-        Debug.Log("Scan Complete");
-    }
-
-
+    // Method to randomize locations
     private Vector3 RandomizeLocation()
     {
         Vector3 position;
@@ -87,7 +75,7 @@ public class customObstacleMoveScript : MonoBehaviour
         
     }
 
-
+    //Run the task
     IEnumerator TaskRun()
     {
         for (int counter = 0; counter < 2; counter++)
@@ -96,10 +84,12 @@ public class customObstacleMoveScript : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         StartCoroutine(moveAI());
+
+        
     }
 
 
-    //Coroutine to move the AI to the waypoints
+    //Coroutine to move the obstacles to the waypoints
     IEnumerator moveAI()
     {
         foreach (Transform waypointTransform in waypoints)
@@ -107,10 +97,18 @@ public class customObstacleMoveScript : MonoBehaviour
             while (Vector3.Distance(objectToMove.position, waypointTransform.position) > 0.1f)
             {
                 objectToMove.position = Vector3.MoveTowards(objectToMove.position, waypointTransform.position, 1f);
-                pathToFollow = seeker.StartPath(objectToMove.position, waypointTransform.position);
-                Scan();
+                
                 yield return new WaitForSeconds(0.5f);
 
+            }
+            waypointCounter++;
+
+            if (waypointCounter >= waypoints.Count)
+            {
+                StopCoroutine(moveAI());
+
+                waypointCounter = 0;
+                StartCoroutine(moveAI());
             }
 
             yield return null;

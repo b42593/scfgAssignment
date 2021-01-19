@@ -9,7 +9,9 @@ public class Level1FoodGenerator : MonoBehaviour
     private GameObject foodParent;
     private GameObject foodPrefab;
     private GameObject food;
-    private snakeheadController snakeController;
+
+    private snakeHeadController snakeController;
+    
 
     public bool foodGenFinished = false;
 
@@ -17,16 +19,15 @@ public class Level1FoodGenerator : MonoBehaviour
     void Start()
     {
 
-        /*waypointParent = new GameObject("Waypoints");
-        waypointParent.transform.position = new Vector3(0f, 0f);*/
         foodPrefab = Resources.Load<GameObject>("Prefabs/Food");
 
         foodParent = new GameObject("Food");
         foodParent.transform.position = new Vector3(0f, 0f);
 
-        snakeController = GameObject.FindGameObjectWithTag("Player").GetComponent<snakeheadController>();
+        snakeController = GameObject.FindGameObjectWithTag("Player").GetComponent<snakeHeadController>();
+        
 
-        //StartCoroutine(TaskRun());
+
         StartCoroutine(foodGeneration());
 
 
@@ -39,6 +40,7 @@ public class Level1FoodGenerator : MonoBehaviour
         if (foodGenFinished)
         {
             StopCoroutine(foodGeneration());
+            snakeController.enabled = true;
         }
     }
 
@@ -63,7 +65,7 @@ public class Level1FoodGenerator : MonoBehaviour
                     {
                         food = createFood(xcoord, ycoord);
                         food.transform.SetParent(foodParent.transform);
-                        food.GetComponent<SpriteRenderer>().color = Color.green;
+                        food.GetComponent<SpriteRenderer>().color = new Color32(138, 83, 129, 100);
                         food.GetComponent<SpriteRenderer>().sortingOrder = -1;
                     }
                     
@@ -75,7 +77,7 @@ public class Level1FoodGenerator : MonoBehaviour
                     {
                         GameObject food = createFood(xcoord, ycoord);
                         food.transform.SetParent(foodParent.transform);
-                        food.GetComponent<SpriteRenderer>().color = Color.green;
+                        food.GetComponent<SpriteRenderer>().color = new Color32(138, 83, 129, 100);
                         food.GetComponent<SpriteRenderer>().sortingOrder = -1;
                     }
                 }
@@ -88,7 +90,7 @@ public class Level1FoodGenerator : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         foodGenFinished = true;
-        //snakeController.AddWaypoints();
+        
         yield return null;
     }
 }

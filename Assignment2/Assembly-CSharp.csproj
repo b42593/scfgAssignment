@@ -56,12 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Resources\Scripts\UIScripts\eventsController.cs" />
-    <Compile Include="Assets\Resources\Scripts\snakeheadController.cs" />
     <Compile Include="Assets\Resources\Scripts\foodCollider.cs" />
+    <Compile Include="Assets\Resources\Scripts\snakeHeadController.cs" />
     <Compile Include="Assets\Resources\Scripts\snakeGenerator.cs" />
     <Compile Include="Assets\Resources\Scripts\Level1FoodGenerator.cs" />
     <Compile Include="Assets\Resources\Scripts\obstacleCollider.cs" />
-    <Compile Include="Assets\Resources\Scripts\customAIMoveScript.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

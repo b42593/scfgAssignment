@@ -8,6 +8,7 @@ TagManager:
   - Target
   - Waypoint
   - Obstacle
+  - GameManager
   layers:
   - Default
   - TransparentFX

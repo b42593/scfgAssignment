@@ -1,15 +1,17 @@
-﻿using Pathfinding;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class snakeheadController : MonoBehaviour
-{
-    snakeGenerator mysnakegenerator;
-    Level1FoodGenerator myfoodgenerator;
+using Pathfinding;
 
-    [Header("Waypoints")]
-    public List<Transform> waypoints;
+
+public class snakeHeadController : MonoBehaviour
+{
+
+    snakeGenerator mysnakegenerator;
+
+    public int targetCounter = 0;
+    public int currentTarget;
 
 
     //the object that we are using to generate the path
@@ -18,102 +20,131 @@ public class snakeheadController : MonoBehaviour
     //path to follow stores the path
     Path pathToFollow;
 
-    Transform objectToMove;
+    //a reference from the UI to the green box
+    GameObject target;
+
+    public GameObject[] targets;
 
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
+        currentTarget = 1;
+        targets = GameObject.FindGameObjectsWithTag("Food");
+        target = targets[0];
 
-        waypoints = new List<Transform>();
-        AddWaypoints();
+        Debug.Log(this.name);
 
-        objectToMove = GameObject.FindGameObjectWithTag("Player").transform;
-
-        seeker = GameObject.FindGameObjectWithTag("Player").GetComponent<Seeker>();
-
-
-        pathToFollow = seeker.StartPath(transform.position, waypoints[0].transform.position);
-
-
+        //the instance of the seeker attached to this game object
+        seeker = GetComponent<Seeker>();
 
         mysnakegenerator = Camera.main.GetComponent<snakeGenerator>();
-        myfoodgenerator = Camera.main.GetComponent<Level1FoodGenerator>();
-        
-        TaskRun();
 
 
+        //generate the initial path
+        pathToFollow = seeker.StartPath(transform.position, target.transform.position);
+
+
+
+        //move the red robot towards the green enemy
+        StartCoroutine(moveTowardsTarget(this.transform));
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
-
-        /*
-         if (Input.GetKeyDown(KeyCode.LeftArrow))
-         {
-             transform.position -= new Vector3(1f,0);
-         }
-         if (Input.GetKeyDown(KeyCode.RightArrow))
-         {
-             transform.position += new Vector3(1f, 0);
-         }
-         if (Input.GetKeyDown(KeyCode.UpArrow))
-         {
-             transform.position += new Vector3(0, 1f);
-         }
-         if (Input.GetKeyDown(KeyCode.DownArrow))
-         {
-             transform.position -= new Vector3(0, 1f);
-         }*/
-
-
-    }
-
-
-    private void AddWaypoints()
-    {
-        GameObject waypoint = GameObject.Find("Waypoint");
-        waypoints.Add(waypoint.transform);
-    }
-
-    //Method to scan using A* Pathfinding scanner
-    private void Scan()
-    {
-        GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
-        Debug.Log("Scan Complete");
-    }
-
-    //Coroutine to run all the tasks (spawn waypoints, spawn obstacles, scan, enable obstacle movement and start AI move coroutine)
-    void TaskRun()
-    {
-        StartCoroutine(moveAI());
-    }
-
-
-    //Coroutine to move the AI to the waypoints
-    IEnumerator moveAI()
-    {
-        foreach (Transform waypointTransform in waypoints)
+        if (mysnakegenerator.snakeLength >= 6)
         {
-            while (Vector3.Distance(objectToMove.position, waypointTransform.position) > 0.1f)
-            {
-                if (myfoodgenerator.foodGenFinished)
-                {
-                    objectToMove.position = Vector3.MoveTowards(objectToMove.position, waypointTransform.position, 1f);
-                    pathToFollow = seeker.StartPath(objectToMove.position, waypointTransform.position);
-                    Scan();
-                    //mysnakegenerator.savePosition();
-
-                    //draw a tail of length
-                    //mysnakegenerator.drawTail(mysnakegenerator.snakeLength);
-                }
-                yield return new WaitForSeconds(0.5f);
-
-            }
-
-            yield return null;
+            targets = GameObject.FindGameObjectsWithTag("Target");
+            target = targets[0];
+        }
+        else
+        {
+            targets = GameObject.FindGameObjectsWithTag("Food");
+            target = targets[0];
         }
     }
 
+
+    //Coroutine that moves the enemy to the target
+    IEnumerator moveTowardsTarget(Transform t)
+    {
+
+        while (true)
+        {
+            if (Vector3.Distance(transform.position, target.transform.position) <= 0.5f  && currentTarget != targets.Length)
+            {
+                targetCounter++;
+                currentTarget++;
+                target = targets[targetCounter];
+            }
+
+
+            List<Vector3> posns = pathToFollow.vectorPath;
+            Debug.Log("Positions Count: " + posns.Count);
+
+            for (int counter = 0; counter < posns.Count; counter++)
+            {
+                if (posns[counter] != null)
+                {
+                    while (Vector3.Distance(t.position, posns[counter]) >= 0.5f)
+                    {
+                        t.position = Vector3.MoveTowards(t.position, posns[counter], 1f);
+                        //since the enemy is moving, I need to make sure that I am following him
+                        pathToFollow = seeker.StartPath(t.position, target.transform.position);
+                        //wait until the path is generated
+                        yield return seeker.IsDone();
+                        //if the path is different, update the path that I need to follow
+                        posns = pathToFollow.vectorPath;
+
+                        //draw a tail of length
+                        mysnakegenerator.drawTail(mysnakegenerator.snakeLength);
+
+                        mysnakegenerator.savePosition();
+
+                        
+
+
+                        GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                    
+                }
+
+                if (currentTarget != targets.Length)
+                {
+                    //keep looking for a path because if we have arrived the enemy will anyway move away
+                    //This code allows us to keep chasing
+                    pathToFollow = seeker.StartPath(t.position, target.transform.position);
+                    yield return seeker.IsDone();
+                    posns = pathToFollow.vectorPath;
+                    yield return null;
+                }
+
+                else if(currentTarget == targets.Length)
+                {
+                    targetCounter++;
+                    //keep looking for a path because if we have arrived the enemy will anyway move away
+                    //This code allows us to keep chasing
+                    pathToFollow = seeker.StartPath(t.position, target.transform.position);
+                    yield return seeker.IsDone();
+                    posns = pathToFollow.vectorPath;
+                    yield return null;
+                }
+                yield return null;
+            }
+                yield return null;
+        }
+    }
+
+
+
+
+
+
+    /*In the custom move AI script, it is first finding the target and the seeker component. With a coroutine, using the seeker component that has been found, a path is generated from the enemy to the target and is stored in a list of positions.
+    The enemy is then moved along this path with a delay of 0.5f and on each move the grid is scanned to update the hitbox of the enemy.*/
+
+
 }
+
+
