@@ -13,6 +13,7 @@ public class snakeHeadController : MonoBehaviour
     public int targetCounter = 0;
     public int currentTarget;
 
+    public int tailsize;
 
     //the object that we are using to generate the path
     Seeker seeker;
@@ -20,7 +21,7 @@ public class snakeHeadController : MonoBehaviour
     //path to follow stores the path
     Path pathToFollow;
 
-    //a reference from the UI to the green box
+    //a reference from the UI to the target
     GameObject target;
 
     public GameObject[] targets;
@@ -30,8 +31,6 @@ public class snakeHeadController : MonoBehaviour
     void Start()
     {
         currentTarget = 1;
-        targets = GameObject.FindGameObjectsWithTag("Food");
-        target = targets[0];
 
         Debug.Log(this.name);
 
@@ -39,6 +38,13 @@ public class snakeHeadController : MonoBehaviour
         seeker = GetComponent<Seeker>();
 
         mysnakegenerator = Camera.main.GetComponent<snakeGenerator>();
+       
+        tailsize = mysnakegenerator.snakeLength;
+
+
+        targets = GameObject.FindGameObjectsWithTag("Food");
+        target = targets[0];
+
 
 
         //generate the initial path
@@ -52,6 +58,7 @@ public class snakeHeadController : MonoBehaviour
 
     private void Update()
     {
+
         if (mysnakegenerator.snakeLength >= 6)
         {
             targets = GameObject.FindGameObjectsWithTag("Target");
@@ -62,6 +69,7 @@ public class snakeHeadController : MonoBehaviour
             targets = GameObject.FindGameObjectsWithTag("Food");
             target = targets[0];
         }
+        
     }
 
 
@@ -96,14 +104,12 @@ public class snakeHeadController : MonoBehaviour
                         //if the path is different, update the path that I need to follow
                         posns = pathToFollow.vectorPath;
 
+
                         //draw a tail of length
                         mysnakegenerator.drawTail(mysnakegenerator.snakeLength);
 
                         mysnakegenerator.savePosition();
-
                         
-
-
                         GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -136,6 +142,14 @@ public class snakeHeadController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject);
+            Destroy(this.gameObject);
+        }
+    }
 
 
 

@@ -29,7 +29,6 @@ class positionRecord
 
 public class snakeGenerator : MonoBehaviour
 {
-    snakeHeadController snakeheadMover;
 
     public int snakeLength;
 
@@ -37,7 +36,7 @@ public class snakeGenerator : MonoBehaviour
     [SerializeField] float spawnX;
     [SerializeField] float spawnY;
 
-    GameObject playerBox, breadcrumbBox, pathParent, timerUI, snake;
+    GameObject playerBox, breadcrumbBox, pathParent, snake;
 
     List<positionRecord> pastPositions;
 
@@ -53,7 +52,7 @@ public class snakeGenerator : MonoBehaviour
         snake.transform.position = new Vector3(0f, 0f);
 
 
-        playerBox = Instantiate(Resources.Load<GameObject>("Prefabs/SnakeHead"), new Vector3(spawnX, spawnY), Quaternion.identity);
+        playerBox = Instantiate(Resources.Load<GameObject>("Prefabs/PlayerSnake/SnakeHead"), new Vector3(spawnX, spawnY), Quaternion.identity);
 
         pathParent = new GameObject();
 
@@ -62,7 +61,7 @@ public class snakeGenerator : MonoBehaviour
         pathParent.name = "Path Parent";
 
 
-        breadcrumbBox = Resources.Load<GameObject>("Prefabs/SnakeBody");
+        breadcrumbBox = Resources.Load<GameObject>("Prefabs/PlayerSnake/SnakeBody");
 
         playerBox.GetComponent<SpriteRenderer>().color = Color.green;
 
@@ -76,8 +75,6 @@ public class snakeGenerator : MonoBehaviour
         playerBox.transform.SetParent(snake.transform);
 
         pastPositions = new List<positionRecord>();
-
-       // drawTail(snakeLength);
     }
 
 

@@ -8,6 +8,7 @@ TagManager:
   - Food
   - Waypoint
   - Target
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -18,9 +19,9 @@ TagManager:
   - 
   - 
   - Obstacle
-  - 
-  - 
-  - 
+  - Food
+  - Player
+  - Enemy
   - 
   - 
   - 

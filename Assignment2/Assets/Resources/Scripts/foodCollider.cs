@@ -33,6 +33,12 @@ public class foodCollider : MonoBehaviour
             mysnakegenerator.snakeLength += 1;
             Destroy(this.gameObject);
         }
+
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            mysnakegenerator.snakeLength += 1;
+            Destroy(this.gameObject);
+        }
     }
 
 
