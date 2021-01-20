@@ -83,14 +83,14 @@ public class customObstacleMoveScript : MonoBehaviour
             AddWaypoints();
             yield return new WaitForSeconds(0.5f);
         }
-        StartCoroutine(moveAI());
+        StartCoroutine(moveOBS());
 
         
     }
 
 
     //Coroutine to move the obstacles to the waypoints
-    IEnumerator moveAI()
+    IEnumerator moveOBS()
     {
         foreach (Transform waypointTransform in waypoints)
         {
@@ -105,10 +105,10 @@ public class customObstacleMoveScript : MonoBehaviour
 
             if (waypointCounter >= waypoints.Count)
             {
-                StopCoroutine(moveAI());
+                StopCoroutine(moveOBS());
 
                 waypointCounter = 0;
-                StartCoroutine(moveAI());
+                StartCoroutine(moveOBS());
             }
 
             yield return null;

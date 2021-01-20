@@ -127,11 +127,16 @@ public class enemySnakeController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(collision.gameObject);
+            Destroy(this.gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
             Destroy(this.gameObject);
         }
     }

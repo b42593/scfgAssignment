@@ -47,8 +47,6 @@ public class snakeDetect : MonoBehaviour
 
             if (timer <= 0) 
             {
-                print("XPOS: " + xPos);
-                print("XPOS: " + yPos);
                 timeToSpawn = true;
                 timer = 0;
                 enemySnake.enabled = true;

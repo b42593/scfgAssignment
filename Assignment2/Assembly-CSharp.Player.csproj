@@ -57,14 +57,15 @@
   <ItemGroup>
     <Compile Include="Assets\Resources\Scripts\UIScripts\eventsController.cs" />
     <Compile Include="Assets\Resources\Scripts\foodCollider.cs" />
+    <Compile Include="Assets\Resources\Scripts\enemySnakeController.cs" />
+    <Compile Include="Assets\Resources\Scripts\targetCollider.cs" />
     <Compile Include="Assets\Resources\Scripts\snakeHeadController.cs" />
     <Compile Include="Assets\Resources\Scripts\snakeGenerator.cs" />
     <Compile Include="Assets\Resources\Scripts\LevelFoodGenerator.cs" />
-    <Compile Include="Assets\Resources\Scripts\obstacleCollider.cs" />
-    <Compile Include="Assets\Resources\Scripts\targetCollider.cs" />
     <Compile Include="Assets\Resources\Scripts\spawnEnemy.cs" />
-    <Compile Include="Assets\Resources\Scripts\enemySnakeController.cs" />
     <Compile Include="Assets\Resources\Scripts\snakeDetect.cs" />
+    <Compile Include="Assets\Resources\Scripts\obstacleCollider.cs" />
+    <Compile Include="Assets\Resources\Scripts\ObstacleScript.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
