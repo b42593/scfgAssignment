@@ -14,7 +14,7 @@ public class foodCollider : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        if (SceneManager.GetActiveScene().name == "Level2") 
+        if (SceneManager.GetActiveScene().name == "Level2" || SceneManager.GetActiveScene().name == "Level3") 
         {
             enemySpawner = Camera.main.GetComponent<spawnEnemy>();
         }

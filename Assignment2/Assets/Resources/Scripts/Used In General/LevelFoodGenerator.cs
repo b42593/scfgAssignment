@@ -22,7 +22,7 @@ public class LevelFoodGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timerUI = Instantiate(Resources.Load<GameObject>("Prefabs/Timer"), new Vector3(0f, 0f), Quaternion.identity);
+        timerUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Timer"), new Vector3(0f, 0f), Quaternion.identity);
         timerUI.GetComponentInChildren<Text>().color = new Color32(255, 255, 255, 100);
 
         //the default value for the timer is started

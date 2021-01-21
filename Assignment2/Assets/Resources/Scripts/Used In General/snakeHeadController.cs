@@ -51,6 +51,7 @@ public class snakeHeadController : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Enemy"))
         {
+            gameManager.friendlySnakeLength = 0;
             Destroy(col.gameObject);
             Destroy(this.gameObject);
             SceneManager.LoadScene("Death");
@@ -58,11 +59,13 @@ public class snakeHeadController : MonoBehaviour
 
         if (col.gameObject.CompareTag("Obstacle"))
         {
+            gameManager.friendlySnakeLength = 0;
             Destroy(this.gameObject);
             SceneManager.LoadScene("Death");
         }
         if (col.gameObject.CompareTag("MovingObstacle"))
         {
+            gameManager.friendlySnakeLength = 0;
             Destroy(this.gameObject);
             SceneManager.LoadScene("Death");
         }

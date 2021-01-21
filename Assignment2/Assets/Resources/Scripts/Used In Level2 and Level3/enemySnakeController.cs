@@ -79,7 +79,9 @@ public class enemySnakeController : MonoBehaviour
                     {
                         t.position = Vector3.MoveTowards(t.position, posns[counter], 1f);
                         //since the enemy is moving, I need to make sure that I am following him
+
                         pathToFollow = seeker.StartPath(t.position, target.transform.position);
+
                         //wait until the path is generated
                         yield return seeker.IsDone();
                         //if the path is different, update the path that I need to follow

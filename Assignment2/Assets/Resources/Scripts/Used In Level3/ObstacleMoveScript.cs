@@ -84,7 +84,7 @@ public class ObstacleMoveScript : MonoBehaviour
     //Run the task
     IEnumerator TaskRun()
     {
-        for (int counter = 0; counter < 2; counter++)
+        for (int counter = 0; counter < 3; counter++)
         {
             AddWaypoints();
             yield return new WaitForSeconds(0.5f);

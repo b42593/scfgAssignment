@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class GameManager : MonoBehaviour
 {
 
@@ -14,16 +13,12 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] InputField nameInputField;
+    
     public string name;
 
-    /*
-        [SerializeField] Canvas TimerCanvas;
-        [SerializeField] Text timerText;
-        public float timer = 0;
-    */
+    
 
-
+    
 
     private void Awake()
     {
@@ -33,40 +28,6 @@ public class GameManager : MonoBehaviour
 
 
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-  
-
-    public void goToFirstLevel()
-    {
-        name = nameInputField.text;
-        if (name != "")
-        {
-            Debug.Log(name);
-            SceneManager.LoadScene("Level1");
-            
-        }
-    }
-
-    public void goBackToMainMenu()
-    {
-        
-         SceneManager.LoadScene("StartScene");
-        
-    }
-    
+     
 
 }

@@ -259,8 +259,8 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
-  - component: {fileID: 519420035}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420035}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -288,7 +288,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e3da9aeff00e24cb3437b59a6f5142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeLength: 0
   spawnX: -9.5
   spawnY: 7.5
 --- !u!20 &519420031

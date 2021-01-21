@@ -42,7 +42,9 @@ public class targetCollider : MonoBehaviour
 
             if (SceneManager.GetActiveScene().name == "Level3")
             {
+                saver.SavePlayer(gameManager);
                 SceneManager.LoadScene("Win");
+                gameManager.friendlySnakeLength = 0;
             }
         }
 
