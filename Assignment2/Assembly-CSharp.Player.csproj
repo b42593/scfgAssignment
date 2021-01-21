@@ -56,18 +56,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Resources\Scripts\Used In General\ObstacleScript.cs" />
-    <Compile Include="Assets\Resources\Scripts\UIScripts\eventsController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level3\ObstacleSpawnScript.cs" />
     <Compile Include="Assets\Resources\Scripts\Used In General\foodCollider.cs" />
-    <Compile Include="Assets\Resources\Scripts\Used In Level2\enemySnakeController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level2 and Level3\enemySnakeController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level3\ObstacleMoveScript.cs" />
     <Compile Include="Assets\Resources\Scripts\Used In General\targetCollider.cs" />
     <Compile Include="Assets\Resources\Scripts\Used In General\snakeHeadController.cs" />
     <Compile Include="Assets\Resources\Scripts\Used In General\snakeGenerator.cs" />
     <Compile Include="Assets\Resources\Scripts\Used In General\LevelFoodGenerator.cs" />
-    <Compile Include="Assets\Resources\Scripts\Used In Level2\spawnEnemy.cs" />
-    <Compile Include="Assets\Resources\Scripts\Used In Level2\snakeDetect.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level2 and Level3\spawnEnemy.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level2 and Level3\snakeDetect.cs" />
     <Compile Include="Assets\Resources\Scripts\Used In General\obstacleCollider.cs" />
-    <Compile Include="Assets\Resources\Scripts\Used In Level3\ObstacleMoveScript.cs" />
-    <Compile Include="Assets\Resources\Scripts\Used In Level3\ObstacleSpawnScript.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In General\GameManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In General\timerManager.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

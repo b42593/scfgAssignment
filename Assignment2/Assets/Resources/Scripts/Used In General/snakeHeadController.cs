@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Pathfinding;
-
+using UnityEngine.SceneManagement;
 
 public class snakeHeadController : MonoBehaviour
 {
-
+    GameManager gameManager;
     snakeGenerator mysnakegenerator;
 
     public int tailsize;
@@ -17,10 +17,10 @@ public class snakeHeadController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         mysnakegenerator = Camera.main.GetComponent<snakeGenerator>();
        
-        tailsize = mysnakegenerator.snakeLength;
+        tailsize = gameManager.friendlySnakeLength;
 
     }
 
@@ -53,15 +53,18 @@ public class snakeHeadController : MonoBehaviour
         {
             Destroy(col.gameObject);
             Destroy(this.gameObject);
+            SceneManager.LoadScene("Death");
         }
 
         if (col.gameObject.CompareTag("Obstacle"))
         {
             Destroy(this.gameObject);
+            SceneManager.LoadScene("Death");
         }
         if (col.gameObject.CompareTag("MovingObstacle"))
         {
             Destroy(this.gameObject);
+            SceneManager.LoadScene("Death");
         }
     }
 

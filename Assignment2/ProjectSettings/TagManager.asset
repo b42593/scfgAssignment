@@ -10,6 +10,7 @@ TagManager:
   - Target
   - Enemy
   - MovingObstacle
+  - Timer
   layers:
   - Default
   - TransparentFX

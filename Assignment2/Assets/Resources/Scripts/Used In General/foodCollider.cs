@@ -1,16 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class foodCollider : MonoBehaviour
 {
-    snakeGenerator mysnakegenerator;
+    GameManager gameManager;
+    spawnEnemy enemySpawner;
     public bool isHittingObstacle = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        mysnakegenerator = Camera.main.GetComponent<snakeGenerator>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        if (SceneManager.GetActiveScene().name == "Level2") 
+        {
+            enemySpawner = Camera.main.GetComponent<spawnEnemy>();
+        }
     }
 
     // Update is called once per frame
@@ -30,13 +37,13 @@ public class foodCollider : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-            mysnakegenerator.snakeLength += 1;
+            gameManager.friendlySnakeLength += 1;
             Destroy(this.gameObject);
         }
 
         if (other.gameObject.CompareTag("Enemy"))
         {
-            mysnakegenerator.snakeLength += 1;
+            enemySpawner.snakeLength += 1;
             Destroy(this.gameObject);
         }
     }

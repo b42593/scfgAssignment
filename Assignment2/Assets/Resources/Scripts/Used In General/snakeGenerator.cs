@@ -30,7 +30,9 @@ class positionRecord
 public class snakeGenerator : MonoBehaviour
 {
 
-    public int snakeLength;
+    GameManager gameManager;
+
+    
 
     [Header ("Snake Spawn Position")]
     [SerializeField] float spawnX;
@@ -47,6 +49,8 @@ public class snakeGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         
 
@@ -79,7 +83,7 @@ public class snakeGenerator : MonoBehaviour
 
 
         //draw a tail of length
-        drawTail(snakeLength);
+        drawTail(gameManager.friendlySnakeLength);
     }
 
 
@@ -94,7 +98,7 @@ public class snakeGenerator : MonoBehaviour
                 savePosition();
 
                 //draw a tail of length
-                drawTail(snakeLength);
+                drawTail(gameManager.friendlySnakeLength);
 
             }
         }

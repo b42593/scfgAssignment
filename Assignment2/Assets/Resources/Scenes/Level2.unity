@@ -548,7 +548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e3da9aeff00e24cb3437b59a6f5142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeLength: 1
+  snakeLength: 0
   spawnX: 9.5
   spawnY: -7.5
 --- !u!20 &519420031

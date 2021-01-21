@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelFoodGenerator : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class LevelFoodGenerator : MonoBehaviour
     private GameObject foodParent;
     private GameObject foodPrefab;
     private GameObject food;
+    private GameObject timerUI;
 
     private snakeHeadController snakeController;
     private ObstacleSpawnScript movingObstacleCreator;
@@ -20,6 +22,11 @@ public class LevelFoodGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timerUI = Instantiate(Resources.Load<GameObject>("Prefabs/Timer"), new Vector3(0f, 0f), Quaternion.identity);
+        timerUI.GetComponentInChildren<Text>().color = new Color32(255, 255, 255, 100);
+
+        //the default value for the timer is started
+        timerUI.GetComponentInChildren<timerManager>().timerStarted = true;
 
         foodPrefab = Resources.Load<GameObject>("Prefabs/Food");
 
