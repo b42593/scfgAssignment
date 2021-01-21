@@ -55,17 +55,19 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Resources\Scripts\Used In General\ObstacleScript.cs" />
     <Compile Include="Assets\Resources\Scripts\UIScripts\eventsController.cs" />
-    <Compile Include="Assets\Resources\Scripts\foodCollider.cs" />
-    <Compile Include="Assets\Resources\Scripts\enemySnakeController.cs" />
-    <Compile Include="Assets\Resources\Scripts\targetCollider.cs" />
-    <Compile Include="Assets\Resources\Scripts\snakeHeadController.cs" />
-    <Compile Include="Assets\Resources\Scripts\snakeGenerator.cs" />
-    <Compile Include="Assets\Resources\Scripts\LevelFoodGenerator.cs" />
-    <Compile Include="Assets\Resources\Scripts\spawnEnemy.cs" />
-    <Compile Include="Assets\Resources\Scripts\snakeDetect.cs" />
-    <Compile Include="Assets\Resources\Scripts\obstacleCollider.cs" />
-    <Compile Include="Assets\Resources\Scripts\ObstacleScript.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In General\foodCollider.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level2\enemySnakeController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In General\targetCollider.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In General\snakeHeadController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In General\snakeGenerator.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In General\LevelFoodGenerator.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level2\spawnEnemy.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level2\snakeDetect.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In General\obstacleCollider.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level3\ObstacleMoveScript.cs" />
+    <Compile Include="Assets\Resources\Scripts\Used In Level3\ObstacleSpawnScript.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

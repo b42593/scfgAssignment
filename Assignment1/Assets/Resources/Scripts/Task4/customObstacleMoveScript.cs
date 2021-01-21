@@ -10,14 +10,10 @@ public class customObstacleMoveScript : MonoBehaviour
     [SerializeField] GameObject waypointPrefab;
     public List<Transform> waypoints;
 
-    [Header("Obstacles")]
-    [SerializeField] GameObject obstaclePrefab;
-    public List<Vector3> availableObstacles;
-
+    KU4PatrolBehaviourScript patroller;
 
     public Transform objectToMove;
 
-    private GameObject obstacleParent;
     private GameObject waypointParent;
 
     public int waypointCounter = 0;
@@ -27,10 +23,8 @@ public class customObstacleMoveScript : MonoBehaviour
     void Start()
     {
 
-        
+        patroller = GameObject.Find("GameManager").GetComponent<KU4PatrolBehaviourScript>();
 
-        obstacleParent = new GameObject("Obstacles");
-        obstacleParent.transform.position = new Vector3(0f, 0f);
 
         waypointParent = new GameObject("Waypoints");
         waypointParent.transform.position = new Vector3(0f, 0f);
@@ -57,7 +51,7 @@ public class customObstacleMoveScript : MonoBehaviour
             y = Random.Range(-49, 49);
 
             position = new Vector3(x, y);
-        } while (availableObstacles.Contains(new Vector3(x, y)));
+        } while (patroller.availableObstacles.Contains(new Vector3(x, y)));
 
         return position;
     }
@@ -66,13 +60,13 @@ public class customObstacleMoveScript : MonoBehaviour
     private void AddWaypoints()
     {
         Vector3 position = RandomizeLocation();
-        availableObstacles.Add(position);
+        patroller.availableObstacles.Add(position);
 
 
         GameObject waypoint = Instantiate(waypointPrefab, position, Quaternion.identity);
         waypoints.Add(waypoint.transform);
         waypoint.transform.SetParent(waypointParent.transform);
-        
+       
     }
 
     //Run the task

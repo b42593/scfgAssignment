@@ -9,6 +9,7 @@ TagManager:
   - Waypoint
   - Target
   - Enemy
+  - MovingObstacle
   layers:
   - Default
   - TransparentFX

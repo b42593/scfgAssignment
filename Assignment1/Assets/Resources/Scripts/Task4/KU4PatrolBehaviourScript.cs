@@ -12,16 +12,6 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
     [SerializeField] GameObject obstaclePrefab;
     public List<Vector3> availableObstacles;
 
-
-    //the object that we are using to generate the path
-    Seeker seeker;
-
-    //path to follow stores the path
-    Path pathToFollow;
-
-    public Transform objectToMove;
-
-
     private GameObject targetParent;
     private GameObject obstacleParent;
 
@@ -64,6 +54,7 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         return position;
     }
 
+    //Method to AddTargets for AI to go to
     private void AddTargets()
     {
         Vector3 position = RandomizeLocation();
@@ -95,7 +86,7 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         Debug.Log("Scan Complete");
     }
 
-
+    //Method to Start the obstacle movement and AI movement
     private void StartAI() 
     {
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
@@ -108,11 +99,6 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         enemy.GetComponent<customAIMoveScript>().enabled = true;
     }
 
-    private void StartEnemy()
-    {
-        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
-        enemy.GetComponent<customAIMoveScript>().enabled = true;
-    }
 
     //Coroutine to run all the tasks (spawn waypoints, spawn obstacles, scan, enable obstacle movement and start AI move coroutine)
     IEnumerator TaskRun()
@@ -130,7 +116,6 @@ public class KU4PatrolBehaviourScript : MonoBehaviour
         }
         Scan();
         StartAI();
-        StartEnemy();
 
         yield return null;
     }
