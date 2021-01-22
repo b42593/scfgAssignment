@@ -24,10 +24,10 @@ public class StartScreenTextHandler : MonoBehaviour
 
     public void goToFirstLevel()
     {
-        gameManager.name = nameInputField.GetComponent<InputField>().text;
-        if (name != "")
+        gameManager.playerName = nameInputField.GetComponent<InputField>().text;
+        if (gameManager.playerName != "")
         {
-            Debug.Log(name);
+            Debug.Log(gameManager.playerName);
             SceneManager.LoadScene("Level1");
 
         }

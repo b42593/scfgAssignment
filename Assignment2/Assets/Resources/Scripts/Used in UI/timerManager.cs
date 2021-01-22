@@ -42,10 +42,7 @@ public class timerManager : MonoBehaviour
                     //measure the time
                     timerValue++;
 
-                    float minutes = timerValue / 60f;
-                    float seconds = timerValue % 60f;
-
-                    timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+                    timerText.text = timerValue.ToString();
 
                     gameManager.completetimervalue = timerValue;
                 }
@@ -56,10 +53,7 @@ public class timerManager : MonoBehaviour
                     //measure the time
                     timerValue++;
 
-                    float minutes = timerValue / 60f;
-                    float seconds = timerValue % 60f;
-
-                    timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+                    timerText.text = timerValue.ToString();
 
                     gameManager.completetimervalue = timerValue;
                 }
@@ -68,12 +62,9 @@ public class timerManager : MonoBehaviour
                 {
                     timerValue = gameManager.completetimervalue++;
                     //measure the time
-                    timerValue++;
+                    timerValue++;            
 
-                    float minutes = timerValue / 60f;
-                    float seconds = timerValue % 60f;
-
-                    timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+                    timerText.text = timerValue.ToString();
 
                     gameManager.completetimervalue = timerValue;
                 }
@@ -85,7 +76,7 @@ public class timerManager : MonoBehaviour
             {
                 //don't measure the time
                 timerValue = 0f;
-                timerText.text = string.Format("{0:00}:{1:00}", 0f, 0f);
+                timerText.text = timerValue.ToString();
                 yield return null;
 
             }

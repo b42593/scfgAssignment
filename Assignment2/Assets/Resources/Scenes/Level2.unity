@@ -548,7 +548,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e3da9aeff00e24cb3437b59a6f5142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeLength: 0
   spawnX: 9.5
   spawnY: -7.5
 --- !u!20 &519420031
@@ -1645,6 +1644,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8787127337112582480, guid: 231b92e5f66b5b94d8541c8be98531ae, type: 3}
+      propertyPath: maxFrameTime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8787127337112582494, guid: 231b92e5f66b5b94d8541c8be98531ae, type: 3}
       propertyPath: m_Name
       value: AStarGrid
