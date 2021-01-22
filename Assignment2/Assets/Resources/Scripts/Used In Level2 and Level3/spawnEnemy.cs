@@ -189,11 +189,7 @@ public class spawnEnemy : MonoBehaviour
                 for (int count = curLength; count < length; count++)
                 {
                     enemyPositionRecord fakeBoxPos = new enemyPositionRecord();
-                    //float ycoord = count * -1;
-                    // ycoord = spawnY - ycoord;
-                    float ycoord = spawnY * -1;
-
-                    fakeBoxPos.Position = new Vector3(spawnX, ycoord);
+                    fakeBoxPos.Position = new Vector3(spawnX, spawnY);
 
                     pastPositions.Add(fakeBoxPos);
                 }
