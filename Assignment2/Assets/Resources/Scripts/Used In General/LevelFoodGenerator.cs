@@ -1,13 +1,17 @@
 ﻿using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class LevelFoodGenerator : MonoBehaviour
 {
-    //private GameObject waypointParent;
+
+    [SerializeField] TextMeshProUGUI objectiveText;
+    
     private GameObject foodParent;
     private GameObject foodPrefab;
     private GameObject food;
@@ -22,6 +26,18 @@ public class LevelFoodGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        //Objective Text
+        if (!foodGenFinished && SceneManager.GetActiveScene().name == "Level1") 
+        {
+            objectiveText.text = "Collect 6 food and Head to target for completion";
+        }
+        if (!foodGenFinished && SceneManager.GetActiveScene().name != "Level1")
+        {
+            objectiveText.text = "Head to target for completion";
+        }
+
+        //Timer
         timerUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Timer"), new Vector3(0f, 0f), Quaternion.identity);
         timerUI.GetComponentInChildren<Text>().color = new Color32(255, 255, 255, 100);
 
@@ -51,8 +67,9 @@ public class LevelFoodGenerator : MonoBehaviour
     void Update()
     {
         if (foodGenFinished && SceneManager.GetActiveScene().name != "Level3")
-        {
+        {   
             StopCoroutine(foodGeneration());
+            objectiveText.text = "Start";
             snakeController.enabled = true;
         }
         else if(foodGenFinished && SceneManager.GetActiveScene().name == "Level3")
@@ -62,11 +79,13 @@ public class LevelFoodGenerator : MonoBehaviour
 
             if (movingObstacleCreator.spawningFinished) 
             {
+                objectiveText.text = "Start";
                 snakeController.enabled = true;
             }
         }
     }
 
+    //GenerateFood
     GameObject createFood(float xpos, float ypos)
     {
         return Instantiate(foodPrefab, new Vector3(xpos, ypos), Quaternion.identity);

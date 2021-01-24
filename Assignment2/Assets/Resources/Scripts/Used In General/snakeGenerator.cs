@@ -81,9 +81,6 @@ public class snakeGenerator : MonoBehaviour
 
         pastPositions = new List<positionRecord>();
 
-
-        //draw a tail of length
-        drawTail(gameManager.friendlySnakeLength);
     }
 
 

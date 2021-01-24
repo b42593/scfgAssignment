@@ -26,6 +26,7 @@ public class snakeHeadController : MonoBehaviour
 
     private void Update()
     {
+        //Snake Inputs
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             transform.position -= new Vector3(1f, 0);
@@ -46,7 +47,7 @@ public class snakeHeadController : MonoBehaviour
         
     }
 
-
+    //Collisions
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Enemy"))

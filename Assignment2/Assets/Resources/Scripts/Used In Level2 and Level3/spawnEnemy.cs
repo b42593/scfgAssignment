@@ -80,6 +80,7 @@ public class spawnEnemy : MonoBehaviour
 
         //move the snakehead automatically with pathing
         enemyBox.AddComponent<enemySnakeController>();
+        enemyBox.AddComponent<LineRenderer>();
 
         enemyBox.name = "Enemy";
 
