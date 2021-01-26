@@ -26,15 +26,20 @@ public class enemySnakeController : MonoBehaviour
     //a reference from the UI to the target
     GameObject target;
 
+    Material mat;
+
     public GameObject[] targets;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        mat = Resources.Load<Material>("Material/PathMat");
 
         inGamePathLine = this.gameObject.GetComponent<LineRenderer>();
-        inGamePathLine.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+        inGamePathLine.material = mat;
+
+
 
         AnimationCurve curve = new AnimationCurve();
         curve.AddKey(0.0f, 0.3f);
@@ -103,53 +108,57 @@ public class enemySnakeController : MonoBehaviour
             List<Vector3> posns = pathToFollow.vectorPath;
             Debug.Log("Positions Count: " + posns.Count);
 
-            for (int counter = 0; counter < posns.Count; counter++)
+            if (this.transform != null) 
             {
-                if (posns[counter] != null)
+                for (int counter = 0; counter < posns.Count; counter++)
                 {
-                    while (Vector3.Distance(t.position, posns[counter]) >= 0.5f)
+                    if (posns[counter] != null)
                     {
-                        t.position = Vector3.MoveTowards(t.position, posns[counter], 1f);
-                        //since the enemy is moving, I need to make sure that I am following him
+                        while (Vector3.Distance(t.position, posns[counter]) >= 0.5f)
+                        {
+                            t.position = Vector3.MoveTowards(t.position, posns[counter], 1f);
+                            //since the enemy is moving, I need to make sure that I am following him
 
-                        pathToFollow = seeker.StartPath(t.position, target.transform.position);
-
-                        
-
-                        //wait until the path is generated
-                        yield return seeker.IsDone();
-                        //if the path is different, update the path that I need to follow
-                        posns = pathToFollow.vectorPath;
+                            pathToFollow = seeker.StartPath(t.position, target.transform.position);
 
                         
-                        enemySnake.drawTail(enemySnake.snakeLength);
-                        enemySnake.savePosition();
+
+                            //wait until the path is generated
+                            yield return seeker.IsDone();
+                            //if the path is different, update the path that I need to follow
+                            posns = pathToFollow.vectorPath;
+
+                        
+                            enemySnake.drawTail(enemySnake.snakeLength);
+                            enemySnake.savePosition();
 
 
-                        GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
-                        yield return new WaitForSeconds(0.5f);
+                            GameObject.Find("AStarGrid").GetComponent<AstarPath>().Scan();
+                            yield return new WaitForSeconds(0.5f);
+                        }
+                    
                     }
-                    
-                }
 
-                if (currentTarget != targets.Length)
-                {
-                    //keep looking for a path because if we have arrived the enemy will anyway move away
-                    //This code allows us to keep chasing
-                    pathToFollow = seeker.StartPath(t.position, target.transform.position);
-                    yield return seeker.IsDone();
-                    posns = pathToFollow.vectorPath;
-                    yield return null;
-                }
+                    if (currentTarget != targets.Length)
+                    {
+                        //keep looking for a path because if we have arrived the enemy will anyway move away
+                        //This code allows us to keep chasing
+                        pathToFollow = seeker.StartPath(t.position, target.transform.position);
+                        yield return seeker.IsDone();
+                        posns = pathToFollow.vectorPath;
+                        yield return null;
+                    }
 
-                else if (currentTarget == targets.Length)
-                {
-                    targetCounter++;
-                    //if target limit reach go to the final target
+                    else if (currentTarget == targets.Length)
+                    {
+                        targetCounter++;
+                        //if target limit reach go to the final target
                     
-                    pathToFollow = seeker.StartPath(t.position, target.transform.position);
-                    yield return seeker.IsDone();
-                    posns = pathToFollow.vectorPath;
+                        pathToFollow = seeker.StartPath(t.position, target.transform.position);
+                        yield return seeker.IsDone();
+                        posns = pathToFollow.vectorPath;
+                        yield return null;
+                    }
                     yield return null;
                 }
                 yield return null;

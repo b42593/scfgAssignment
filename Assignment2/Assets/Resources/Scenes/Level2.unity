@@ -1778,6 +1778,10 @@ PrefabInstance:
       propertyPath: maxFrameTime
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8787127337112582480, guid: 231b92e5f66b5b94d8541c8be98531ae, type: 3}
+      propertyPath: logPathResults
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8787127337112582494, guid: 231b92e5f66b5b94d8541c8be98531ae, type: 3}
       propertyPath: m_Name
       value: AStarGrid

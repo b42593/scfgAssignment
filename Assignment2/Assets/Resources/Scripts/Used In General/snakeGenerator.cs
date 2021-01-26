@@ -86,20 +86,22 @@ public class snakeGenerator : MonoBehaviour
 
     void Update()
     {
-        if (playerBox.GetComponent<snakeHeadController>().enabled) 
+        if (playerBox != null) 
         {
-            if (Input.anyKeyDown && !((Input.GetMouseButtonDown(0)
-                || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))) && !Input.GetKeyDown(KeyCode.X) && !Input.GetKeyDown(KeyCode.Z) && !Input.GetKeyDown(KeyCode.Space))
+            if (playerBox.GetComponent<snakeHeadController>().enabled) 
             {
+                if (Input.anyKeyDown && !((Input.GetMouseButtonDown(0)
+                    || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))) && !Input.GetKeyDown(KeyCode.X) && !Input.GetKeyDown(KeyCode.Z) && !Input.GetKeyDown(KeyCode.Space))
+                {
            
-                savePosition();
+                    savePosition();
 
-                //draw a tail of length
-                drawTail(gameManager.friendlySnakeLength);
+                    //draw a tail of length
+                    drawTail(gameManager.friendlySnakeLength);
 
+                }
             }
         }
-
     }
 
 

@@ -95,8 +95,10 @@ public class WinScreenTextHandler : MonoBehaviour
             timerText.text = "You finished at: " + p.timeN;
             
 
-            if (names.Length < 2)
+            if (names.Length <= 2)
             {
+                playerScore.Sort((p1, p2) => p1.timeN.CompareTo(p2.timeN));
+
                 leaderboard1.text = playerScore[0].playerN + " " + playerScore[0].timeN;
                 leaderboard2.text = playerScore[1].playerN + " " + playerScore[1].timeN;
                 leaderboard3.text = "No Users yet entered";
@@ -104,6 +106,8 @@ public class WinScreenTextHandler : MonoBehaviour
 
             if (names.Length > 2)
             {
+                playerScore.Sort((p1, p2) => p1.timeN.CompareTo(p2.timeN));
+
                 leaderboard1.text = playerScore[0].playerN + " " + playerScore[0].timeN;
                 leaderboard2.text = playerScore[1].playerN + " " + playerScore[1].timeN;
                 leaderboard3.text = playerScore[2].playerN + " " + playerScore[2].timeN;

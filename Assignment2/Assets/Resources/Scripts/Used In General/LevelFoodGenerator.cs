@@ -70,7 +70,10 @@ public class LevelFoodGenerator : MonoBehaviour
         {   
             StopCoroutine(foodGeneration());
             objectiveText.text = "Start";
-            snakeController.enabled = true;
+            if (snakeController != null) 
+            {
+                snakeController.enabled = true;
+            }
         }
         else if(foodGenFinished && SceneManager.GetActiveScene().name == "Level3")
         {
@@ -80,7 +83,10 @@ public class LevelFoodGenerator : MonoBehaviour
             if (movingObstacleCreator.spawningFinished) 
             {
                 objectiveText.text = "Start";
-                snakeController.enabled = true;
+                if (snakeController != null)
+                {
+                    snakeController.enabled = true;
+                }
             }
         }
     }
